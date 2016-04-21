@@ -51,6 +51,15 @@ update-java-home-symlink:
     - name: {{ java.java_home }}
     - target: {{ java.java_real_home }}
 
+create-java:
+  alternatives.install:
+    - name: java
+    - link: /usr/bin/java
+    - path: {{ java.java_home }}/bin/java
+    - priority: 100
+    - require:
+      - file: update-java-home-symlink
+
 remove-jdk-tarball:
   file.absent:
     - name: {{ tarball_file }}
